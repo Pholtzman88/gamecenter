@@ -1,5 +1,5 @@
 {
-  "name": "GameCenter",
+  "name": "gamecenter",
   "version": "1.0.0",
   "description": "game center",
   "main": "public/index.html",
@@ -27,5 +27,13 @@
     "babel-preset-es2015": "^6.3.13",
     "babel-preset-react": "^6.3.13",
     "webpack": "^1.13.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pholtzman88/gamecenter.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Pholtzman88/gamecenter/issues"
+  },
+  "homepage": "https://github.com/Pholtzman88/gamecenter#readme"
 }
