@@ -5,83 +5,71 @@ export default class Bullet extends Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			x: this.props.x,
-			y: this.props.y,
-			stageBullet: this.props.stage,
-			bulletIsStaged: false,
+			x: -200,
+			y: -200,
 			fire: false,
-			display: "none",
-			angle: 0,
-			radians: 0
+			angle: 0
 		}
-
+		this.setVelocity = this.setVelocity.bind(this);
 		this.stageBullet = this.stageBullet.bind(this);
-		this.fireBullet = this.fireBullet.bind(this);
 		this.tick = this.tick.bind(this);
-
 	}
-
 	componentDidMount(){
-		setInterval(x => this.tick(),60);
-		console.log("component did mount");
+		this.tick();
 	}
-
 
 	tick(){
 		this.stageBullet();
-		this.fireBullet();
+		this.setVelocity();
+		this.props.getPos(this.state.x, this.state.y)
+		window.requestAnimationFrame(this.tick);
 	}
 
 	stageBullet(){
-		if (this.props.stage == true && this.state.fire == false){
-
-			console.log("staging bullet");
-
+		if(this.props.fire == true){
+			var x = (this.props.x + 20)
+			var y = (this.props.y + 20)
 			this.setState({
-				x: this.props.x,
-				y: this.props.y,
-				display: this.props.display,
-				angle: this.props.angle,
-				bulletIsStaged: true
-			});
-		}
-	}
-
-	fireBullet(){
-		if (this.state.bulletIsStaged == true){
-
-			console.log("bullet is firing");
-
-			var deg = this.state.angle;
-			var radians = deg * Math.PI/180;
-			radians = radians * -1
-			var speed = 20;
-			var vx = speed * Math.cos(radians);
-			var vy = speed * Math.sin(radians);
-
-			this.setState({
-				x: this.state.x + vx,
-				y: this.state.y + vy,
-				fire: true
+				fire: true,
+				x: x,
+				y: y,
+				angle: this.props.angle
 			})
 		}
 	}
 
+	setVelocity(){
+		if (this.state.fire == true){
+			var deg = this.state.angle;
+			var radians = deg * Math.PI/180;
+			
+			var speed = 10;
+			var vx = speed * Math.sin(radians);
+			var vy = speed * Math.cos(radians);
+
+			this.setState({
+				x: this.state.x + vx,
+				y: this.state.y + vy
+			});
+		}
+	}
 
 	render(){
 		let style = {
 			width: "2",
-			height: "2",
+			height: "20",
 			borderRadius: "100%",
 			position: "absolute",
-			display: this.state.display,
-			left: this.state.x + 12.5,
-			bottom: this.state.y + 12.5,
-			backgroundColor: "yellow",
+			display: "block",
+			left: this.state.x,
+			bottom: this.state.y,
+			backgroundColor: "white",
 			transform: `rotateZ(${this.state.angle}deg)`
 		}
 		return (
+
 			<div style={style} />
+
 		);
 	}
 }

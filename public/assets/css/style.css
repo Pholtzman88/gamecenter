@@ -1,0 +1,37 @@
+body {
+	background-color: black
+}
+.game{
+	background-image: url("../images/space.png");
+}
+
+.vader {
+	background-image: url("../images/vader.png");
+	background-size: 100%;
+	background-repeat: no-repeat;
+}
+.stormtrooper {
+	background-image: url("../images/stormtrooper.jpg");
+	background-size: 100%;
+	background-repeat: no-repeat;
+}
+.darthMaul {
+	background-image: url("../images/darthmaul.jpg");
+	background-size: 100%;	
+	background-repeat: no-repeat;
+}
+.yoda {
+	background-image: url("../images/yoda.jpg");
+	background-size: 100%;	
+	background-repeat: no-repeat;	
+}
+.obiWan {
+	background-image: url("../images/obiWan.jpg");
+	background-size: 100%;	
+	background-repeat: no-repeat;
+}
+.hanSolo {
+	background-image: url("../images/hanSolo.jpeg");
+	background-size: 100%;	
+	background-repeat: no-repeat;
+}
