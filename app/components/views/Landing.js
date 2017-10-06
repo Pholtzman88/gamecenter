@@ -58,13 +58,28 @@ export default class Landing extends Component {
 			left: this.state.x,
 			top: this.state.y
 		}
-		const linkStyle = {
+		const playLinkStyle = {
 			color: "black",
 			position: "absolute",
 			fontSize: this.state.fontSize,
-			left: 600,
+			left: 515,
 			top: 500,
-			width: "100px",
+			width: "110px",
+			height: "50px",
+			backgroundColor: "yellow",
+			textAlign: "center",
+			textDecoration: "none",
+			borderRadius: "10px",
+			border: "5px solid white",
+			opacity: this.state.opacity
+		}
+		const controlsLinkStyle = {
+			color: "black",
+			position: "absolute",
+			fontSize: this.state.fontSize,
+			left: 675,
+			top: 500,
+			width: "110px",
 			height: "50px",
 			backgroundColor: "yellow",
 			textAlign: "center",
@@ -92,7 +107,8 @@ export default class Landing extends Component {
 							</text>
 						</g>
 					</svg>
-					<Link to="/Game" style={linkStyle}>Play</Link>
+					<Link to="/Game" style={playLinkStyle}>Play</Link>
+					<Link to="/Controls" style={controlsLinkStyle}>Controls</Link>
 				</div>
 			);
 	}
