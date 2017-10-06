@@ -36,8 +36,8 @@ export default class Ship extends Component {
 					bottom: this.state.y,
 					transform: `rotateZ(${this.state.angle}deg)`
 				},
-				width: "50",
-				height: "50",
+				width: "45",
+				height: "45",
 				position: "absolute",
 				left: this.state.x,
 				bottom: this.state.y,

@@ -1,20 +1,28 @@
 import React, { Component } from "react";
+import Sound from "react-sound";
 
 export default class Asteroid extends Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			x:Math.floor(Math.random()*1300) + 100,
+			x:Math.floor(Math.random()*200) + 700,
 			y:Math.floor(Math.random()*600),
 			vx: Math.floor(Math.random()*3+1)*1.5,
-			vy: Math.floor(Math.random()*3+1)*1.5
+			vy: Math.floor(Math.random()*3+1)*1.5,
+			explode: false
 		}
 		this.setTrajectory = this.setTrajectory.bind(this);
+		this.handleSongFinishedPlaying = this.handleSongFinishedPlaying.bind(this);
 		this.tick = this.tick.bind(this);
 	}
 
 	componentDidMount(){
 		this.tick();
+	}
+	handleSongFinishedPlaying(){
+		this.setState({
+			explode: false
+		})
 	}
 
 	tick(){
@@ -24,7 +32,9 @@ export default class Asteroid extends Component {
 	}
 
 	componentWillUnmount(){
-		console.log("unmounting");
+		this.setState({
+			explode: true
+		})
 		this.props.updateScore(5);
 		this.props.updateTime(4);
 	}
@@ -48,11 +58,11 @@ export default class Asteroid extends Component {
 		
 		if ( -100 > this.state.x ){
 			this.setState({vx: this.state.vx *= -1});
-		}else if ( 1300 < this.state.x){
+		}else if ( 901 < this.state.x){
 			this.setState({vx: this.state.vx *= -1});
 		}else if ( -100 > this.state.y){
 			this.setState({vy: this.state.vy *= -1});
-		}else if ( 650 < this.state.y){
+		}else if ( 500 < this.state.y){
 			this.setState({vy: this.state.vy *= -1});
 		}
 	}
@@ -80,6 +90,7 @@ export default class Asteroid extends Component {
 
 		if (this.props.explode == true){
 			return (
+				<div>
 				<svg style={style.explosion} id="SVGRoot" version="1.1" viewBox="0 0 30 30">
 					<defs id="defs815"/>
 					<g id="layer1">
@@ -88,6 +99,7 @@ export default class Asteroid extends Component {
 						<ellipse id="path1442" style={{"fill":"#000000","fillOpacity":"0.996337","stroke":"#fb0000","strokeWidth":"0.62362206","strokeLinecap":"butt","strokeLinejoin":"round","strokeMiterlimit":"4","strokeDasharray":"none","strokeOpacity":"1"}} cx="14.247358" cy="14.727251" rx="1.4941406" ry="1.5820312"/>
 					</g>
 				</svg>
+				</div>
 			);
 		}
 

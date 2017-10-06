@@ -26,7 +26,7 @@ export default class Clock extends Component {
 		const style = {
 			color: "white",
 			position: "absolute",
-			left: 600
+			left: 650
 		}
 	
 		return (

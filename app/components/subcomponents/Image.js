@@ -23,9 +23,10 @@ export default class Image extends Component {
 	render(){
 
 		const style = {
-			width: "20%",
-			height: "100%",
-			float: "left"
+			width: "100px",
+			height: "100px",
+			position: "absolute",
+			borderRadius: "10px"
 		}
 	
 		return (

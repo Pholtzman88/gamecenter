@@ -1,10 +1,12 @@
 import React, { Component } from "react";
+import Sound from "react-sound";
 import Ship from "../subcomponents/Ship.js";
 import Asteroid from "../subcomponents/Asteroid.js";
 import Bullet from "../subcomponents/Bullet.js";
 import Clock from "../subcomponents/Clock.js";
 import Scoreboard from "../subcomponents/Scoreboard.js";
 import GameOver from "../subcomponents/GameOver.js";
+
 
 var shipDirection;
 var fire = false;
@@ -15,8 +17,8 @@ export default class Realm extends Component {
 		this.state = {
 			runGame: true,
 			gameOver: false,
-			shipX:0,
-			shipY: 0,
+			shipX:350,
+			shipY: 200,
 			shipDirection: "",
 			shipSpin: "",
 			shipExplode: false,
@@ -60,7 +62,10 @@ export default class Realm extends Component {
 			time: 11,
 			convertedTime: "",
 			score: 0,
-			enemiesLeft: 5
+			enemiesLeft: 5,
+			blasterSound: false,
+			explosionSound: false,
+			playMusic: false
 
 		}
 		this.handleKeyboardEvents = this.handleKeyboardEvents.bind(this);
@@ -78,12 +83,17 @@ export default class Realm extends Component {
 		this.updateTime = this.updateTime.bind(this);
 		this.unmount = this.unmount.bind(this);
 		this.addAsteroids = this.addAsteroids.bind(this);
+		this.handleSongFinishedPlaying = this.handleSongFinishedPlaying.bind(this);
+		this.handleExplosionEnd = this.handleExplosionEnd.bind(this);
 	}
 
 	componentDidMount(){
 		this.tick()
 		setInterval(x => this.count(this.formatTime),1000);
 		setInterval(x => this.unmount(),500);
+		this.setState({
+			playMusic: true
+		});
 	}
 
 
@@ -118,7 +128,7 @@ export default class Realm extends Component {
 	}
 
 	tick(){
-
+		this.props.getGameStatus(this.state.score,this.state.runGame);
 
 		if (this.state.runGame == true){
 			this.handleKeyboardEvents();
@@ -196,7 +206,7 @@ export default class Realm extends Component {
 			}
 			break;
 			case "right":
-			if (this.state.shipX > 1120){
+			if (this.state.shipX > 700){
 				this.setState({shipX: this.state.shipX})
 			}
 			else{
@@ -212,7 +222,7 @@ export default class Realm extends Component {
 			}
 			break;
 			case "up":
-			if (this.state.shipY > 570){
+			if (this.state.shipY > 400){
 				this.setState({shipY: this.state.shipY})
 			}
 			else{
@@ -233,9 +243,13 @@ export default class Realm extends Component {
 		}
 	}
 
+
 	fireBullet(){
 		if (fire == true){
-
+			this.setState({
+				blasterSound: true
+			});
+			console.log(this.state.blasterSound)
 			fire = false;
 			this.setState({
 				initBulletX: this.state.shipX,
@@ -304,29 +318,35 @@ export default class Realm extends Component {
 		this.state.asteroidField.map((asteroid) => {
 			var aX = asteroid.x;
 			var aY = asteroid.y;
+			var asteroidRadius = 17.5;
+			var shipRadius = 22.5;
 			var fieldX = false;
 			var fieldY = false;
 
-			if (x >= aX  && x <= (aX + 40)){
-				fieldX = true;
-			};
-			if(y >= aY  && y <= (aY + 40)){
-				fieldY = true;
-			};
-
 			if (type === "bullet"){
+				if (x >= aX  && x <= (aX + 35)){
+					fieldX = true;
+				};
+				if(y >= aY  && y <= (aY + 35)){
+					fieldY = true;
+				};
 				if (fieldX == true && fieldY == true){
 					let newState = Object.assign({},this.state);
 					newState.asteroidField[asteroid.index].explode = true;
 					this.setState(newState);
 					this.setState({
-						enemiesLeft: this.state.enemiesLeft - 1
+						enemiesLeft: this.state.enemiesLeft - 1,
+						explosionSound: true
 					})
 
 				}
 			}
 			else if (type === "ship"){
-				if (fieldX == true && fieldY == true){
+				var dx = x - aX;
+				var dy = y - aY;
+				var distance = Math.sqrt(dx*dx + dy*dy);
+
+				if ( distance < asteroidRadius + shipRadius){
 					if (this.state.asteroidField[asteroid.index].render == true){
 						this.setState({
 							shipExplode: true
@@ -334,7 +354,7 @@ export default class Realm extends Component {
 						this.setState({
 							runGame: false
 						})
-					}
+					}					
 				}
 			}
 
@@ -348,7 +368,6 @@ export default class Realm extends Component {
 				let newS = Object.assign({},this.state);
 				newS.asteroidField[asteroid.index].render = false;
 				this.setState(newS)
-				console.log(newS)
 			}
 		})
 	}
@@ -362,6 +381,18 @@ export default class Realm extends Component {
 	updateTime(addedTime){
 		this.setState({
 			time: this.state.time + addedTime
+		})
+	}
+
+	handleSongFinishedPlaying(){
+		this.setState({
+			blasterSound: false
+		})
+	}
+
+	handleExplosionEnd(){
+		this.setState({
+			explosionSound: false
 		})
 	}
 
@@ -380,9 +411,11 @@ export default class Realm extends Component {
 		}
 		return (
 			<div style={style} className="game">
+			{this.state.playMusic ? <Sound url="../public/assets/sounds/game.mp3" playStatus={Sound.status.PLAYING}/> : null}
+			{this.state.explosionSound ? <Sound url="../public/assets/sounds/explosion.mp3" playStatus={Sound.status.PLAYING} onFinishedPlaying={this.handleExplosionEnd}/> : null}
+			{this.state.blasterSound ? <Sound url="../public/assets/sounds/blaster-firing.mp3" playStatus={Sound.status.PLAYING} onFinishedPlaying={this.handleSongFinishedPlaying}/> : null}
 			{this.state.runGame ? <Clock time={this.state.convertedTime}/> : null}
 			{this.state.runGame ? <Scoreboard score={this.state.score} /> : null}
-			{this.state.gameOver ? <GameOver finalScore={this.state.score}/> : null}
 			<Ship x={this.state.shipX} y={this.state.shipY} angle={this.state.angle} explode={this.state.shipExplode}/>
 			<Bullet x={this.state.initBulletX} y={this.state.initBulletY} angle={this.state.angle} fire={this.state.fire} getPos={this.getBulletPosition}/>
 			{this.state.asteroidField.map((asteroid,i)=> asteroid.render ? <Asteroid key={i} index={i} getPos={this.getAsteroidPosition} updateScore={this.updateScore} updateTime={this.updateTime} explode={asteroid.explode}/> : null)}

@@ -104,13 +104,29 @@ export default class Dialogue extends Component {
 		const style = {
 			width: "60%",
 			height: "100px",
-			marginLeft: "20%"
+			marginLeft: "20%",
+			position: "relative",
+			top: "20px"
+		}
+		const svgStyle = {
+			position: "absolute",
+			left: 100
 		}
 	
 		return (
 			<div style={style}>
-			{this.state.talk ?	<Image image={this.state.currentImage}/> : null}
-			{this.state.talk ?	<Text text={this.state.currentText}/> : null}
+				{this.state.talk ?	<Image image={this.state.currentImage}/> : null}
+				{this.state.talk ?	<Text text={this.state.currentText}/> : null}
+				{this.state.talk ? <svg style={svgStyle} height="100px" id="SVGRoot" width="350px" version="1.1" viewBox="0 0 350 100">
+					<defs id="defs2055">
+						<lineargradient id="linearGradient4054">
+							<stop id="stop4052" style={{"stopColor":"#fb0000","stopOpacity":"1"}} offset="0"/>
+						</lineargradient>
+					</defs>
+					<g id="layer1">
+						<path id="path4166" style={{"opacity":"0.94599998","fill":"none","fillOpacity":"1","stroke":"#ffffff","strokeWidth":"1.75748038","strokeLinecap":"butt","strokeLinejoin":"miter","strokeMiterlimit":"4","strokeDasharray":"none","strokeOpacity":"1"}} d="M 1.7876136,37.510007 34.715242,47.512263 34.353399,24.914574 33.629716,7.1327861 h 28.585523 36.184206 44.506575 43.78289 39.44079 37.63157 L 316.95205,6.762332 346.26126,7.8736941 V 33.805468 l -0.72368,40.009023 -10e-6,20.374965 -24.60525,-0.370454 H 270.63627 232.28101 194.64944 119.38629 76.327079 54.616555 L 34.353399,93.448547 V 74.925853 Z"/>
+					</g>
+				</svg> : null}
 			</div>
 		);
 	}

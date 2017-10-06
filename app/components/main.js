@@ -1,15 +1,15 @@
 import React, { Component } from "react";
-import Realm from "./containers/Realm.js";
-import Dialogue from "./containers/Dialogue.js";
+import Game from "./views/Game.js";
 
 export default class Main extends Component {
-
+	constructor(props){
+		super(props);
+	}
 
 	render(){
 		return (
 			<div>
-				<Realm />
-				<Dialogue/>
+				{this.props.children}
 			</div>
 		);
 	}

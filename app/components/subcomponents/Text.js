@@ -23,7 +23,9 @@ export default class Text extends Component {
 	render(){
 		const style = {
 			color: "white",
-			float: "left"
+			position: "absolute",
+			left: 150,
+			width: "280px"
 		}
 	
 		return (
