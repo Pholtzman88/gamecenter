@@ -26025,23 +26025,6 @@
 								});
 							}
 						}
-
-						// if (x >= aX  && x <= (aX + 35)){
-						// 	fieldX = true;
-						// };
-						// if(y >= aY  && y <= (aY + 35)){
-						// 	fieldY = true;
-						// };
-						// if (fieldX == true && fieldY == true){
-						// 	if (this.state.asteroidField[asteroid.index].render == true){
-						// 		this.setState({
-						// 			shipExplode: true
-						// 		});
-						// 		this.setState({
-						// 			runGame: false
-						// 		})
-						// 	}
-						// }
 					}
 				});
 			}
